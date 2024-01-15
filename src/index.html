@@ -77,5 +77,56 @@
     <div id="container" class="flex items-center flex-1">
     </div>
 </div>
+
+<script>
+
+    const baseUrl = window.location.origin + '/Comp1004/src';
+
+    // load home page by default
+    const homePage = baseUrl + '/pages/home.html';
+    fetch(homePage)
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('home-menu').classList.add('bg-gray-900', 'text-white');
+            document.querySelector('#container').innerHTML = data;
+        });
+
+    function attachLinkListeners() {
+        console.log('attachLinkListeners')
+        const links = document.querySelectorAll('.spa-link');
+        links.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                fetch(baseUrl + `/${href}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        links.forEach(link => {
+                            link.classList.remove('text-white');
+                            link.classList.remove('bg-gray-900');
+                            link.classList.add('text-gray-300');
+                        });
+                        if (href !== 'pages/login.html') {
+                            this.classList.add('bg-gray-900', 'text-white');
+                        } else {
+                            this.classList.add('text-white');
+                        }
+                        link.classList.remove('text-gray-300');
+                        document.querySelector('#container').innerHTML = data;
+
+                        // Re-attach event listeners to new links
+                        attachLinkListeners();
+                    });
+            });
+        });
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        attachLinkListeners();
+    });
+
+
+</script>
 </body>
 </html>
