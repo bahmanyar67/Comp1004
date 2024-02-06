@@ -1,9 +1,33 @@
-<main class="w-full h-full flex items-center flex-1">
-    <div class="mx-auto w-full max-w-6xl py-6 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-center">
-            <div class="flex items-center justify-center h-full w-full bg-white rounded-md
-                    shadow-sm text-center min-h-20">
-                Dashboard Page
+<main class="w-full h-full flex flex-1">
+    <div class="mx-auto w-full max-w-6xl py-6 sm:px-6 lg:px-8 h-full">
+        <div class="flex justify-center h-full">
+            <div class="flex flex-col items-center h-full w-full bg-white rounded-md
+                    shadow-sm text-center min-h-64 p-4">
+
+
+                <div>
+                    <label class="flex items-center border border-gray-400 px-2 rounded-lg" for="search" >
+                        <input class="border-0" type="search" id="search" name="search" >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                             class="icon icon-tabler icon-tabler-search w-5 h-5 text-gray-400"
+                             stroke-width="2" stroke="currentColor" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0"/>
+                            <path d="M21 21l-6 -6"/>
+                        </svg>
+
+                    </label>
+                </div>
+
+                <div class="w-full max-w-xl flex  justify-between">
+                    <span class="text-3xl" >Passwords</span>
+                    <button class="border shadow p-1 px-4 rounded-lg font-normal text-white bg-indigo-600 hover:bg-indigo-700">Add</button>
+                </div>
+
+
+                <div></div>
+
             </div>
         </div>
     </div>
