@@ -6,42 +6,51 @@
                 </div>
                 <div class="w-full p-6">
                     <h2 class="text-3xl text-center font-medium pb-3">Register</h2>
-                    <form class="mt-8">
+                    <div class="mt-8">
                         <div class="mb-6">
-                            <label for="name" class="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
-                            <input required="" type="email" name="email" id="name"
+                            <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
+                            <input required="" type="text" name="fullname" id="fullname"
                                    placeholder="Name"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
                         </div>
                         <div class="mb-6">
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email Address</label>
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email
+                                Address</label>
                             <input required="" type="email" name="email" id="email"
                                    placeholder="email@domain.com"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
                         </div>
                         <div class="mb-6">
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
                             <input required="" type="password" name="password" id="password"
                                    placeholder="*******************"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
                         </div>
                         <div class="mb-6">
-                            <label for="password-confirmation" class="block mb-2 text-sm font-medium text-gray-900">Password Confirmation</label>
-                            <input required="" type="password" name="password" id="password-confirmation"
+                            <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">
+                                Password Confirmation</label>
+                            <input required="" type="password" name="password_confirmation" id="password_confirmation"
                                    placeholder="*******************"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
                         </div>
-                        <button class="w-full text-white font-medium rounded-lg text-base px-5 py-2 text-center mb-6 bg-indigo-700 hover:bg-indigo-600">
+                        <button onclick="storeNewUser()"
+                                class="w-full text-white font-medium rounded-lg text-base px-5 py-2 text-center mb-6
+                                bg-indigo-700 hover:bg-indigo-600">
                             <span class="flex justify-center items-center text-sm">Create New Account</span>
                         </button>
                         <div class="text-sm font-medium text-gray-500">Already Registered?
-                            <a class="ml-1 text-blue-700 hover:underline spa-link" href="pages/login.html">Log in to account.</a>
+                            <a class="ml-1 text-blue-700 hover:underline spa-link" href="pages/login.html">Log in to
+                                account.</a>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
