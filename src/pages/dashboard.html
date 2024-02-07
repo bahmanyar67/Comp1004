@@ -3,9 +3,9 @@
         <div class="flex justify-center h-full">
             <div class="flex flex-col items-center h-full w-full bg-white rounded-md
                     shadow-sm min-h-64 p-4">
-                <div>
-                    <label class="flex items-center border border-gray-400 px-2 rounded-lg" for="search">
-                        <input class="border-0" type="search" id="search" name="search">
+                <div class="w-full max-w-xl">
+                    <label class="w-full flex items-center border border-gray-300 px-2 rounded-lg" for="search">
+                        <input class="w-full border-0 focus:border-0 focus:ring-0" type="search" id="search" name="search">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                              class="icon icon-tabler icon-tabler-search w-5 h-5 text-gray-400"
                              stroke-width="2" stroke="currentColor" fill="none"
@@ -18,10 +18,11 @@
                     </label>
                 </div>
 
-                <div class="w-full max-w-xl flex  justify-between py-5">
+                <div class="w-full max-w-4xl flex justify-between py-5">
 
                     <span class="text-3xl">Passwords</span>
-                    <button class="flex items-center border shadow p-1 px-3 rounded-lg font-normal text-white bg-indigo-600 hover:bg-indigo-700">
+                    <button class="flex items-center border shadow p-1 px-3 rounded-lg font-normal text-white
+                    bg-indigo-600 hover:bg-indigo-700 duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                              stroke-linecap="round" stroke-linejoin="round">
@@ -33,8 +34,9 @@
                     </button>
                 </div>
 
-                <div class="w-full max-w-xl flex justify-between pt-1">
-                    <div class="w-full max-w-xl flex justify-between border border-gray-400 px-2 rounded-lg">
+                <div class="w-full max-w-4xl space-y-2 divide-y pt-1">
+                    <div class="w-full flex items-center justify-between
+                    hover:bg-gray-50 duration-200 px-2 py-1 ">
                         <div>
                             <div>
                                 <span class="font-medium">Facebook.com</span>
@@ -44,8 +46,8 @@
                             </div>
                         </div>
 
-                        <div class="pt-4">
-                            <button class="hover:text-gray-400">
+                        <div class="text-gray-500">
+                            <button class="hover:text-gray-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
                                      width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5"
                                      stroke="currentColor" fill="none" stroke-linecap="round"
@@ -55,7 +57,7 @@
                                     <path d="M13.5 6.5l4 4"/>
                                 </svg>
                             </button>
-                            <button class="hover:text-gray-400">
+                            <button class="text-red-500 hover:text-red-600">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
                                      width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5"
                                      stroke="currentColor" fill="none" stroke-linecap="round"
