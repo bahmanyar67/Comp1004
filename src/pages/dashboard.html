@@ -2,12 +2,10 @@
     <div class="mx-auto w-full max-w-6xl py-6 sm:px-6 lg:px-8 h-full">
         <div class="flex justify-center h-full">
             <div class="flex flex-col items-center h-full w-full bg-white rounded-md
-                    shadow-sm text-center min-h-64 p-4">
-
-
+                    shadow-sm min-h-64 p-4">
                 <div>
-                    <label class="flex items-center border border-gray-400 px-2 rounded-lg" for="search" >
-                        <input class="border-0" type="search" id="search" name="search" >
+                    <label class="flex items-center border border-gray-400 px-2 rounded-lg" for="search">
+                        <input class="border-0" type="search" id="search" name="search">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                              class="icon icon-tabler icon-tabler-search w-5 h-5 text-gray-400"
                              stroke-width="2" stroke="currentColor" fill="none"
@@ -20,15 +18,66 @@
                     </label>
                 </div>
 
-                <div class="w-full max-w-xl flex  justify-between">
-                    <span class="text-3xl" >Passwords</span>
-                    <button class="border shadow p-1 px-4 rounded-lg font-normal text-white bg-indigo-600 hover:bg-indigo-700">Add</button>
+                <div class="w-full max-w-xl flex  justify-between py-5">
+
+                    <span class="text-3xl">Passwords</span>
+                    <button class="flex items-center border shadow p-1 px-3 rounded-lg font-normal text-white bg-indigo-600 hover:bg-indigo-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
+                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 5l0 14"/>
+                            <path d="M5 12l14 0"/>
+                        </svg>
+                        <span class="pl-1">Add</span>
+                    </button>
                 </div>
 
+                <div class="w-full max-w-xl flex justify-between pt-1">
+                    <div class="w-full max-w-xl flex justify-between border border-gray-400 px-2 rounded-lg">
+                        <div>
+                            <div>
+                                <span class="font-medium">Facebook.com</span>
+                            </div>
+                            <div>
+                                <span class="text-sm text-gray-700">shahla.bahmanyar@gmail.com</span>
+                            </div>
+                        </div>
 
-                <div></div>
+                        <div class="pt-4">
+                            <button class="hover:text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-pencil"
+                                     width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5"
+                                     stroke="currentColor" fill="none" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/>
+                                    <path d="M13.5 6.5l4 4"/>
+                                </svg>
+                            </button>
+                            <button class="hover:text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-trash"
+                                     width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5"
+                                     stroke="currentColor" fill="none" stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <path d="M4 7l16 0"/>
+                                    <path d="M10 11l0 6"/>
+                                    <path d="M14 11l0 6"/>
+                                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
+                                    <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+
+
+                </div>
 
             </div>
+
         </div>
+    </div>
     </div>
 </main>
