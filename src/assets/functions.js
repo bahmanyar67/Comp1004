@@ -14,17 +14,34 @@ function login() {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
 
+    if (!email || !password) {
+        console.log('Email and password are required.');
+        return;
+    }
+
     let users = JSON.parse(localStorage.getItem('users')) || [];
-    let user = users.find(user => user.email === email && user.password === password);
+    // decode stored password and compare with submitted password.
+    let user = users.find(user => user.email === email && decodeURIComponent(window.atob(user.password)) === password);
+
     if (user) {
-        console.log('Login Successful')
+        console.log('Login Successful');
     } else {
-        console.log('Invalid email or password!')
+        console.log('Invalid email or password!');
     }
 }
 
-// TODO: complete validate function.
-//function validatePassword(password,password_confirmation){}
+function validatePassword(password, password_confirmation) {
+    if (password.length < 6) {
+        console.log('Password length should be at least 6 characters');
+        return false;
+    }
+
+    if (password !== password_confirmation) {
+        console.log('Password and Password Confirmation do not match!');
+        return false;
+    }
+    return true;
+}
 
 // register
 function storeNewUser() {
@@ -53,12 +70,7 @@ function storeNewUser() {
         return;
     }
 
-    if (password !== password_confirmation) {
-        console.log("Password and Password Confirmation is not same!")
-        return;
-    }
-    if (password.length < 6) {
-        console.log("Password length should be at least 6 character")
+    if (!validatePassword(password, password_confirmation)) {
         return;
     }
 
@@ -74,30 +86,26 @@ function storeNewUser() {
         return;
     }
 
-    let newUser = {
-        id: new Date().getTime(), // use timestamp for user id
-        fullname: fullName,
-        email: email,
-        password: password
-    };
-
-
     if (isUserExists(email)) {
         console.log('You have already registered!');
         return;
     }
 
+    // encode user password before saving it.
+    let b64_password = btoa(encodeURIComponent(password));
+
+
+    let newUser = {
+        id: new Date().getTime(),
+        fullname: fullName,
+        email: email,
+        password: b64_password
+    };
 
 //JSON= convert user object to JSON, which is a data type  similar to string
+
     let users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
     alert('User added successfully');
-
-
 }
-
-
-
-
-
