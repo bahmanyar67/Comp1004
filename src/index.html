@@ -9,8 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="../dist/output.css" rel="stylesheet">
-    <script src="assets/functions.js"></script>
-
 </head>
 <body>
 <div class="bg-gray-100 min-h-screen w-full h-full flex flex-col">
@@ -33,13 +31,13 @@
                     </div>
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <a id="home-menu" href="pages/home.html"
+                            <a id="home-menu" href="#home"
                                class="spa-link bg-gray-900 text-gray-300 rounded-md px-3 py-2 text-sm font-medium">Home</a>
-                            <a href="pages/about.html"
+                            <a href="#about"
                                class="spa-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">About</a>
-                            <a href="pages/contact.html"
+                            <a href="#contact"
                                class="spa-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Contact</a>
-                            <a href="pages/dashboard.html"
+                            <a href="#dashboard"
                                class="spa-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Dashboard</a>
                         </div>
                     </div>
@@ -47,7 +45,7 @@
                 <div class="hidden md:block">
                     <div class="ml-4 flex items-center md:ml-6">
                         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-                            <a href="pages/login.html"
+                            <a href="#login"
                                class="spa-link text-sm font-medium leading-6 text-gray-400 hover:text-white">Log in
                                 <span aria-hidden="true">&rarr;</span></a>
                         </div>
@@ -76,59 +74,12 @@
             </div>
         </div>
     </nav>
+
+    <!-- using this container to load pages -->
     <div id="container" class="flex items-center flex-1">
     </div>
 </div>
 
-<script>
-
-    const baseUrl = window.location.origin + '/Comp1004/src';
-
-    // load home page by default
-    const homePage = baseUrl + '/pages/home.html';
-    fetch(homePage)
-        .then(response => response.text())
-        .then(data => {
-            document.getElementById('home-menu').classList.add('bg-gray-900', 'text-white');
-            document.querySelector('#container').innerHTML = data;
-        });
-
-    function attachLinkListeners() {
-        console.log('attachLinkListeners')
-        const links = document.querySelectorAll('.spa-link');
-        links.forEach(link => {
-            link.addEventListener('click', function (e) {
-                e.preventDefault();
-                const href = this.getAttribute('href');
-                fetch(baseUrl + `/${href}`)
-                    .then(response => response.text())
-                    .then(data => {
-                        links.forEach(link => {
-                            link.classList.remove('text-white');
-                            link.classList.remove('bg-gray-900');
-                            link.classList.add('text-gray-300');
-                        });
-                        if (href !== 'pages/login.html') {
-                            this.classList.add('bg-gray-900', 'text-white');
-                        } else {
-                            this.classList.add('text-white');
-                        }
-                        link.classList.remove('text-gray-300');
-                        document.querySelector('#container').innerHTML = data;
-
-                        // Re-attach event listeners to new links
-                        attachLinkListeners();
-                    });
-            });
-        });
-    }
-
-
-    document.addEventListener('DOMContentLoaded', function () {
-        attachLinkListeners();
-    });
-
-
-</script>
+<script src="assets/script.js"></script>
 </body>
 </html>

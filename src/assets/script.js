@@ -1,3 +1,66 @@
+document.addEventListener("DOMContentLoaded", function() {
+    const containerDiv = document.getElementById('container');
+
+    function showPage(content) {
+        containerDiv.innerHTML = content;
+    }
+
+    // add selected menu class (background and text color)
+    function applyClass(pageName) {
+        const links = document.querySelectorAll('.spa-link');
+        links.forEach(link => {
+            if (link.attributes.href.value === "#"+pageName){
+                if (pageName === 'login'){
+                    link.classList.add('text-white');
+                }else{
+                    link.classList.remove('text-gray-300');
+                    link.classList.add('text-white');
+                    link.classList.add('bg-gray-900');
+                }
+
+            }else{
+                link.classList.remove('text-white');
+                link.classList.remove('bg-gray-900');
+                link.classList.add('text-gray-300');
+            }
+        })
+    }
+
+    function navigateToPage() {
+        const hash = window.location.hash.substring(1);
+        if (hash) {
+            fetchPage(hash);
+        } else {
+            // Default to home page if no hash
+            fetchPage('home');
+        }
+    }
+
+    // get requested page content
+    async function fetchPage(pageName) {
+
+        try {
+            const response = await fetch('pages/' + pageName + '.html');
+            if (!response.ok) {
+                throw new Error('Page not found');
+            }
+            const content = await response.text();
+            showPage(content);
+            applyClass(pageName)
+        } catch (error) {
+            console.error(error);
+            showPage('<h1>Error: Page not found</h1>');
+        }
+    }
+
+    // Event listeners for navigation
+    window.addEventListener('hashchange', navigateToPage);
+
+    navigateToPage();
+});
+
+
+
 // check if user exists
 function isUserExists(email) {
     let users = JSON.parse(localStorage.getItem('users')) || [];
@@ -102,7 +165,7 @@ function storeNewUser() {
         password: b64_password
     };
 
-//JSON= convert user object to JSON, which is a data type  similar to string
+//Convert user object to JSON(which is a data type  similar to string)
 
     let users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(newUser);
