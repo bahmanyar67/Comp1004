@@ -1,3 +1,4 @@
+// Navigation system
 document.addEventListener("DOMContentLoaded", function() {
     const containerDiv = document.getElementById('container');
 
@@ -24,6 +25,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 link.classList.add('text-gray-300');
             }
         })
+
+        document.title = pageName;
     }
 
     function navigateToPage() {
@@ -87,12 +90,14 @@ function login() {
     let user = users.find(user => user.email === email && decodeURIComponent(window.atob(user.password)) === password);
 
     if (user) {
+        window.location.hash = '#dashboard';
         console.log('Login Successful');
     } else {
         console.log('Invalid email or password!');
     }
 }
 
+// check if password is valid
 function validatePassword(password, password_confirmation) {
     if (password.length < 6) {
         console.log('Password length should be at least 6 characters');
@@ -137,11 +142,7 @@ function storeNewUser() {
         return;
     }
 
-    const validateEmail = (email) => {
-        return email.match(
-            /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-        );
-    };
+
 
 
     if (!validateEmail(email)) {
@@ -154,10 +155,8 @@ function storeNewUser() {
         return;
     }
 
-    // encode user password before saving it.
+    // encode user password before saving it. (with this password can easily be found instead use Sha256)
     let b64_password = btoa(encodeURIComponent(password));
-
-
     let newUser = {
         id: new Date().getTime(),
         fullname: fullName,
@@ -166,7 +165,6 @@ function storeNewUser() {
     };
 
 //Convert user object to JSON(which is a data type  similar to string)
-
     let users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
