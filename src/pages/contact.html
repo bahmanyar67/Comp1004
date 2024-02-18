@@ -1,7 +1,7 @@
 <main class="w-full h-full flex items-center flex-1">
     <div class="mx-auto w-full max-w-6xl py-6 sm:px-6 lg:px-8">
         <div class="flex items-center justify-center">
-            <div class="w-full bg-white grid grid-cols-3 gap-7 p-4 rounded-md shadow-sm">
+            <div class="w-full bg-white grid grid-cols-3 gap-24 p-4 rounded-md shadow-sm">
                 <div class="">
                     <ul class="divide-y">
                         <li class="flex items-center gap-2 py-2 ">
@@ -39,7 +39,8 @@
 
                         <li class="flex items-center gap-2 py-2">
                                 <span class="bg-orange-600 text-white rounded-full p-1 ">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail w-7 h-7"
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-mail w-7 h-7"
                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                                          stroke-linecap="round" stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -58,21 +59,25 @@
                 <div class="col-span-2 space-y-4">
                     <div>
                         <h2 class="font-medium text-2xl">Get in touch</h2>
-                        <p class="text-gray-600 pt-2">Do not hesitate to contact us if have any questions or feature request.</p>
+                        <p class="text-gray-600 pt-2">Do not hesitate to contact us if have any questions or feature
+                            request.</p>
                     </div>
                     <div class="space-y-2">
-                        <div>
-                            <input placeholder="Name" type="text">
-                            <input placeholder="Email Address" type="email" />
+                        <div class="pb-3">
+                            <input class="rounded-md" placeholder="Name" type="text">
+                            <input class="rounded-md" placeholder="Email Address" type="email"/>
                         </div>
                         <div>
-                            <input placeholder="Subject" type="text" />
+                            <input class="rounded-md" placeholder="Subject" type="text"/>
                         </div>
                         <div>
-                            <textarea placeholder="Your message"></textarea>
+                            <textarea class="rounded-md w-full h-40" placeholder="Your message"></textarea>
                         </div>
                         <div>
-                            <button class="border-2 bg">Send</button>
+                            <button class="flex items-center border shadow p-1 px-3 rounded-lg font-normal text-white
+                    bg-indigo-600 hover:bg-indigo-700 duration-200">
+                                <span>Send</span>
+                            </button>
                         </div>
                     </div>
                 </div>
