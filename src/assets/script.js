@@ -143,25 +143,18 @@ function storeNewUser() {
     }
 
 
-
-
-    if (!validateEmail(email)) {
-        console.log("Please enter a valid email address")
-        return;
-    }
-
     if (isUserExists(email)) {
         console.log('You have already registered!');
         return;
     }
 
     // encode user password before saving it. (with this password can easily be found instead use Sha256)
-    let b64_password = btoa(encodeURIComponent(password));
+    let encrypted_password = CryptoJS.SHA256(encodeURIComponent(password));
     let newUser = {
         id: new Date().getTime(),
         fullname: fullName,
         email: email,
-        password: b64_password
+        password: encrypted_password.toString()
     };
 
 //Convert user object to JSON(which is a data type  similar to string)
