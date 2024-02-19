@@ -4,8 +4,8 @@
             <div class="w-full bg-white grid grid-cols-3 gap-24 p-4 rounded-md shadow-sm">
                 <div class="">
                     <ul class="divide-y">
-                        <li class="flex items-center gap-2 py-2 ">
-                                <span class="bg-orange-600 text-white rounded-full p-1 ">
+                        <li class="flex items-center gap-2 py-4">
+                                <span class="bg-gray-800 text-white rounded-full p-2 ">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-map-pin w-7 h-7"
                                          viewBox="0 0 24 24" stroke-width="1.5"
@@ -16,12 +16,12 @@
                                 </span>
                             <div>
                                 <h3 class="font-medium">Address</h3>
-                                <span class="text-sm">18 King William Street, London, EC4N 7BP</span>
+                                <span class="text-sm">3 Station Road, Plymouth, PL2 1NE</span>
                             </div>
                         </li>
 
-                        <li class="flex items-center gap-2 py-2">
-                                <span class="bg-orange-600 text-white rounded-full p-1 ">
+                        <li class="flex items-center gap-2 py-4">
+                                <span class="bg-gray-800 text-white rounded-full p-2 ">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-map-pin w-7 h-7"
                                          viewBox="0 0 24 24" stroke-width="1.5"
@@ -37,8 +37,8 @@
                             </div>
                         </li>
 
-                        <li class="flex items-center gap-2 py-2">
-                                <span class="bg-orange-600 text-white rounded-full p-1 ">
+                        <li class="flex items-center gap-2 py-4">
+                                <span class="bg-gray-800 text-white rounded-full p-2 ">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          class="icon icon-tabler icon-tabler-mail w-7 h-7"
                                          viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
@@ -58,25 +58,34 @@
 
                 <div class="col-span-2 space-y-4">
                     <div>
-                        <h2 class="font-medium text-2xl">Get in touch</h2>
+                        <h2 class="font-medium text-3xl">Get in touch</h2>
                         <p class="text-gray-600 pt-2">Do not hesitate to contact us if have any questions or feature
                             request.</p>
                     </div>
-                    <div class="space-y-2">
-                        <div class="pb-3">
-                            <input class="rounded-md" placeholder="Name" type="text">
-                            <input class="rounded-md" placeholder="Email Address" type="email"/>
+                     <div class="space-y-2">
+                        <div class="pb-3 w-full flex gap-2 items-center">
+                            <input class="rounded-md focus:ring-0 border border-gray-300 focus:border-gray-400 w-full" placeholder="Name" type="text">
+                            <input class="rounded-md focus:ring-0 border border-gray-300 focus:border-gray-400 w-full" placeholder="Email Address" type="email"/>
                         </div>
                         <div>
-                            <input class="rounded-md" placeholder="Subject" type="text"/>
+                            <input class="rounded-md focus:ring-0 border border-gray-300 focus:border-gray-400 w-full" placeholder="Subject" type="text"/>
                         </div>
                         <div>
-                            <textarea class="rounded-md w-full h-40" placeholder="Your message"></textarea>
+                            <textarea class="rounded-md focus:ring-0 border border-gray-300 focus:border-gray-400 w-full h-40" placeholder="Your message"></textarea>
                         </div>
-                        <div>
-                            <button class="flex items-center border shadow p-1 px-3 rounded-lg font-normal text-white
-                    bg-indigo-600 hover:bg-indigo-700 duration-200">
-                                <span>Send</span>
+                        <div class="flex justify-end">
+                            <button class="flex items-center border shadow py-1.5 px-2 rounded-full font-normal text-white
+                    bg-gray-800 hover:bg-gray-950 duration-200">
+                                <span class="px-3">SEND MESSAGE</span>
+                                <span class="bg-white rounded-full p-2 text-gray-800">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                         class="icon icon-tabler icon-tabler-brand-telegram w-5 h-5"
+                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                         stroke-linecap="round" stroke-linejoin="round"><path stroke="none"
+                                                                                              d="M0 0h24v24H0z"
+                                                                                              fill="none"/><path
+                                            d="M15 10l-4 4l6 6l4 -16l-18 7l4 2l2 6l3 -4"/></svg>
+                                </span>
                             </button>
                         </div>
                     </div>
