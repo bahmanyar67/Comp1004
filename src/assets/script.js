@@ -42,6 +42,13 @@ document.addEventListener("DOMContentLoaded", function() {
     // get requested page content
     async function fetchPage(pageName) {
 
+        if (pageName === 'dashboard'){
+            if (!isUserLoggedIn()){
+                window.location.hash = '#login';
+                return
+            }
+        }
+
         try {
             const response = await fetch('pages/' + pageName + '.html');
             if (!response.ok) {
@@ -62,7 +69,26 @@ document.addEventListener("DOMContentLoaded", function() {
     navigateToPage();
 });
 
+const auth = {
+    user:null
+}
 
+// check if user already logged in to the app
+function isUserLoggedIn() {
+    // if user exists in the auth
+    if (auth.user !== null && auth.user !== undefined){
+        console.log('null or undefined')
+        return true
+    }
+
+    let user = JSON.parse(localStorage.getItem('auth_user')) || null;
+    if (user){
+        auth.user = user
+        return true
+    }
+
+    return false
+}
 
 // check if user exists
 function isUserExists(email) {
@@ -79,7 +105,7 @@ function isUserExists(email) {
 function login() {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
-
+    let password_encrypted = CryptoJS.SHA256(password).toString()
     if (!email || !password) {
         console.log('Email and password are required.');
         return;
@@ -87,14 +113,21 @@ function login() {
 
     let users = JSON.parse(localStorage.getItem('users')) || [];
     // decode stored password and compare with submitted password.
-    let user = users.find(user => user.email === email && decodeURIComponent(window.atob(user.password)) === password);
+    let user = users.find(user => user.email === email && user.password === password_encrypted);
 
     if (user) {
+        setLoggedIn(user)
         window.location.hash = '#dashboard';
         console.log('Login Successful');
     } else {
         console.log('Invalid email or password!');
     }
+}
+
+// set user as logged in
+function setLoggedIn(user) {
+    auth.user = user
+    localStorage.setItem('auth_user', JSON.stringify(user));
 }
 
 // check if password is valid
@@ -119,6 +152,8 @@ function storeNewUser() {
     let password_confirmation = document.getElementById('password_confirmation').value;
 
 
+    let password_error = document.getElementById('password_error')
+
     if (!fullName) {
         console.log("Name is empty")
         return;
@@ -130,9 +165,15 @@ function storeNewUser() {
     }
 
     if (!password) {
-        console.log("Password is empty")
+        password_error.innerHTML = 'Password is Empty!'
         return;
     }
+
+    if (!checkPassword(password)){
+        password_error.innerHTML ='password is not strong!(use upper,lower case character and number)'
+        return
+    }
+
     if (!password_confirmation) {
         console.log("Password Confirmation is empty")
         return;
@@ -148,7 +189,7 @@ function storeNewUser() {
         return;
     }
 
-    // encode user password before saving it. (with this password can easily be found instead use Sha256)
+    // encode user password before saving it
     let encrypted_password = CryptoJS.SHA256(encodeURIComponent(password));
     let newUser = {
         id: new Date().getTime(),
@@ -163,3 +204,27 @@ function storeNewUser() {
     localStorage.setItem('users', JSON.stringify(users));
     alert('User added successfully');
 }
+
+function checkPassword(str)
+{
+    //Comp1003 regular expression cheat sheet v2
+    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    return re.test(str);
+}
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const page = window.location.hash.substring(1);
+
+
+    if (page === 'dashboard'){
+        setTimeout(
+            function () {
+                let a = document.getElementById('dashboard_user_welcome')
+                a.innerHTML = 'Hi, ' + auth.user.fullname
+            },300
+        )
+
+    }
+
+});
