@@ -77,11 +77,11 @@ const auth = {
 function isUserLoggedIn() {
     // if user exists in the auth
     if (auth.user !== null && auth.user !== undefined){
-        console.log('null or undefined')
+
         return true
     }
 
-    let user = JSON.parse(localStorage.getItem('auth_user')) || null;
+    let user = JSON.parse(sessionStorage.getItem('auth_user')) || null;
     if (user){
         auth.user = user
         return true
@@ -107,7 +107,8 @@ function login() {
     let password = document.getElementById('password').value;
     let password_encrypted = CryptoJS.SHA256(password).toString()
     if (!email || !password) {
-        console.log('Email and password are required.');
+        password_error.innerHTML='Email and password are required.'
+
         return;
     }
 
@@ -116,18 +117,20 @@ function login() {
     let user = users.find(user => user.email === email && user.password === password_encrypted);
 
     if (user) {
-        setLoggedIn(user)
+        setLoggedIn(user,password)
         window.location.hash = '#dashboard';
-        console.log('Login Successful');
+        window.location.reload()
     } else {
-        console.log('Invalid email or password!');
+        password_error.innerHTML='Invalid email or password!'
+
     }
 }
 
 // set user as logged in
-function setLoggedIn(user) {
+function setLoggedIn(user,pure_password) {
+    user.pure_password = pure_password
     auth.user = user
-    localStorage.setItem('auth_user', JSON.stringify(user));
+    sessionStorage.setItem('auth_user', JSON.stringify(user));
 }
 
 // check if password is valid
@@ -138,7 +141,7 @@ function validatePassword(password, password_confirmation) {
     }
 
     if (password !== password_confirmation) {
-        console.log('Password and Password Confirmation do not match!');
+        passwordConfirmation_error.innerHTML='Password and Password Confirmation do not match!'
         return false;
     }
     return true;
@@ -151,41 +154,46 @@ function storeNewUser() {
     let password = document.getElementById('password').value;
     let password_confirmation = document.getElementById('password_confirmation').value;
 
-
+    // errors
     let password_error = document.getElementById('password_error')
+    let fullName_error = document.getElementById('fullName_error')
+    let email_error = document.getElementById('email_error')
+    let passwordConfirmation_error = document.getElementById('passwordConfirmation_error')
+    let userExists_error = document.getElementById('userExists_error')
 
+
+    fullName_error.innerHTML=''
     if (!fullName) {
-        console.log("Name is empty")
-        return;
+        fullName_error.innerHTML='Name is empty'
     }
 
+    email_error.innerHTML=''
     if (!email) {
-        console.log("Email address is empty")
-        return;
+        email_error.innerHTML='Email address is empty!'
     }
 
+    password_error.innerHTML=''
     if (!password) {
         password_error.innerHTML = 'Password is Empty!'
-        return;
+    }else{
+        if (!checkPassword(password)){
+            password_error.innerHTML ='password is not strong! (use upper,lower case character and number)'
+        }
     }
 
-    if (!checkPassword(password)){
-        password_error.innerHTML ='password is not strong!(use upper,lower case character and number)'
-        return
-    }
 
+    passwordConfirmation_error.innerHTML=''
     if (!password_confirmation) {
-        console.log("Password Confirmation is empty")
-        return;
+        passwordConfirmation_error.innerHTML='Password Confirmation is empty'
     }
 
     if (!validatePassword(password, password_confirmation)) {
         return;
     }
 
-
+    userExists_error.innerHTML=''
     if (isUserExists(email)) {
-        console.log('You have already registered!');
+        userExists_error.innerHTML='You have already registered!'
         return;
     }
 
@@ -198,11 +206,19 @@ function storeNewUser() {
         password: encrypted_password.toString()
     };
 
-//Convert user object to JSON(which is a data type  similar to string)
+//Convert user object to JSON  (JSON is a data type  similar to string)
     let users = JSON.parse(localStorage.getItem('users')) || [];
     users.push(newUser);
     localStorage.setItem('users', JSON.stringify(users));
-    alert('User added successfully');
+    userExists_error.classList.remove('text-red-500')
+    userExists_error.classList.add('text-green-500')
+    userExists_error.classList.add('text-lg')
+    userExists_error.innerHTML='You have successfully registered! you will be redirected to the login page!'
+
+    setTimeout(function () {
+        window.location.hash = '#login'
+    },6000)
+
 }
 
 function checkPassword(str)
@@ -212,11 +228,15 @@ function checkPassword(str)
     return re.test(str);
 }
 
+function logout(){
+    sessionStorage.removeItem('auth_user')
+    window.location.reload()
+}
+
 
 document.addEventListener("DOMContentLoaded", function() {
+    // dashboard
     const page = window.location.hash.substring(1);
-
-
     if (page === 'dashboard'){
         setTimeout(
             function () {
@@ -224,7 +244,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 a.innerHTML = 'Hi, ' + auth.user.fullname
             },300
         )
-
     }
 
+    // replace login with logout
+    let login_button = document.getElementById('login_button')
+    let logout_button =document.getElementById('logout_button')
+
+    if (isUserLoggedIn()) {
+        // User is logged in, show logout button and hide login button
+        if (login_button) {
+            login_button.classList.add('hidden');
+        }
+        if (logout_button) {
+            logout_button.classList.remove('hidden');
+        }
+    } else {
+        // User is not logged in, show login button and hide logout button
+        if (login_button) {
+            login_button.classList.remove('hidden');
+        }
+        if (logout_button) {
+            logout_button.classList.add('hidden');
+        }
+    }
 });

@@ -6,6 +6,7 @@
                 </div>
                 <div class="w-full p-6">
                     <h2 class="text-3xl text-center font-medium pb-3">Register</h2>
+                    <span id="userExists_error" class="text-sm text-red-500 text-center font-normal "></span>
                     <div class="mt-8">
                         <div class="mb-6">
                             <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
@@ -14,6 +15,7 @@
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
+                            <span id="fullName_error" class="text-sm text-red-500"></span>
                         </div>
                         <div class="mb-6">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email
@@ -23,6 +25,7 @@
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
+                            <span id="email_error" class="text-sm text-red-500"></span>
                         </div>
                         <div class="mb-6">
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
@@ -41,6 +44,7 @@
                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                    value="">
+                            <span id="passwordConfirmation_error" class="text-sm text-red-500" ></span>
                         </div>
                         <button onclick="storeNewUser()"
                                 class="w-full text-white font-medium rounded-lg text-base px-5 py-2 text-center mb-6
