@@ -232,6 +232,24 @@ function logout(){
     sessionStorage.removeItem('auth_user')
     window.location.reload()
 }
+ function togglePassword(status){
+     let eye_closed=document.getElementById('eye_closed')
+     let eye_open=document.getElementById('eye_open')
+     let passwordHolder=document.getElementById('passwordHolder')
+
+     if(status) {
+         eye_closed.classList.add('hidden')
+         eye_open.classList.remove('hidden')
+
+         passwordHolder.innerHTML='++++++++++'
+     }else {
+         eye_open.classList.add('hidden')
+         eye_closed.classList.remove('hidden')
+
+         passwordHolder.innerHTML='*********'
+     }
+
+ }
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -250,6 +268,8 @@ document.addEventListener("DOMContentLoaded", function() {
     let login_button = document.getElementById('login_button')
     let logout_button =document.getElementById('logout_button')
 
+
+
     if (isUserLoggedIn()) {
         // User is logged in, show logout button and hide login button
         if (login_button) {
@@ -267,4 +287,5 @@ document.addEventListener("DOMContentLoaded", function() {
             logout_button.classList.add('hidden');
         }
     }
+
 });
