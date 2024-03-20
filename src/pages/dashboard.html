@@ -25,7 +25,7 @@
 
                         <span class="text-3xl">Passwords</span>
                         <button class="flex items-center border shadow p-1 px-3 rounded-lg font-normal text-white
-                    bg-gray-800 hover:bg-gray-950 duration-200">
+                    bg-gray-800 hover:bg-gray-950 duration-200" onclick="openAddPasswordModal()" >
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
                                  viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
                                  stroke-linecap="round" stroke-linejoin="round">
@@ -37,9 +37,8 @@
                         </button>
                     </div>
 
-                    <div class="w-full max-w-4xl space-y-2 divide-y pt-1">
-                        <div class="w-full flex items-center justify-between
-                    hover:bg-gray-50 duration-200 px-2 py-1 ">
+                    <div id="passwordList" class="w-full max-w-4xl space-y-2 divide-y pt-1">
+                        <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
                             <div>
                                 <div>
                                     <span class="font-medium">Facebook.com</span>
@@ -120,11 +119,43 @@
 
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+
+    <div id="addPasswordModal" class="hidden fixed inset-0 z-50 bg-black bg-opacity-50 items-center justify-center">
+        <div class="bg-white w-full max-w-xl  rounded-md p-4">
+            <div class="flex justify-between pb-3">
+                <span class="text-2xl font-medium">Add New Password</span>
+                <button onclick="closeAddPasswordModal()" class="text-gray-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-x" width="24" height="24"
+                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form class="flex flex-col space-y-2" id="addPasswordForm" method="post" onsubmit="addPassword(event)">
+                <label for="website">Website Name</label>
+                <input type="text" required name="website" id="website" class="border border-gray-300 rounded-lg p-2 w-full" placeholder="Website">
+                <span id="w_name_error" class="text-sm text-red-500 hidden"></span>
+
+                <label for="website_username">Username</label>
+                <input type="text" required name="website-username" id="website_username" class="border border-gray-300 rounded-lg p-2 w-full" placeholder="Username">
+                <span id="w_username_error" class="text-sm text-red-500 hidden"></span>
+
+                <label for="website_password">Password</label>
+                <input type="password" required name="website-password" id="website_password" class="border border-gray-300 rounded-lg p-2 w-full" placeholder="Password">
+                <span id="w_password_error" class="text-sm text-red-500 hidden"></span>
+
+                <div class="pt-3">
+                    <button class="bg-gray-800 text-white rounded-lg p-2 w-full">Add</button>
+                </div>
+            </form>
         </div>
     </div>
 </main>
