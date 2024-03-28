@@ -41,12 +41,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // get requested page content
     async function fetchPage(pageName) {
-
         if (pageName === 'dashboard') {
             if (!isUserLoggedIn()) {
                 window.location.hash = '#login';
                 return
             }
+
+            setTimeout(
+                function () {
+                    let a = document.getElementById('dashboard_user_welcome')
+                    a.innerHTML = 'Hi, ' + auth.user.fullname
+                    showPasswordsInDashboard()
+                }, 400
+            )
+
         }
 
         try {
@@ -267,7 +275,17 @@ function togglePassword(id, status) {
 }
 
 // open add password modal
-function openAddPasswordModal() {
+function openAddPasswordModal(id = null) {
+
+    if (id) {
+        let password = auth.passwords.find(p => p.id === id)
+        let form = document.querySelector('#addPasswordForm');
+        form.elements['id'].value = password.id
+        form.elements['website'].value = password.website
+        form.elements['website-username'].value = password.username
+        form.elements['website-password'].value = password.password
+    }
+
     let modal = document.getElementById('addPasswordModal')
     modal.classList.add('flex')
     modal.classList.remove('hidden')
@@ -278,6 +296,9 @@ function closeAddPasswordModal() {
     let modal = document.getElementById('addPasswordModal')
     modal.classList.add('hidden')
     modal.classList.remove('flex')
+    // clear form
+    let form = document.querySelector('#addPasswordForm');
+    form.reset()
 }
 
 // add password
@@ -291,7 +312,7 @@ function addPassword() {
 
     // read addPasswordForm values
     let record = {
-        id: new Date().getTime(),
+        id: parseInt(formData.get('id')),
         website: formData.get('website'),
         username: formData.get('website-username'),
         password: formData.get('website-password')
@@ -317,21 +338,34 @@ function addPassword() {
         passwords = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
     }
 
-    passwords.push(record);
+    if (record.id) {
+        let index = passwords.findIndex(p => p.id === record.id)
+        passwords[index] = record
+    } else {
+        record.id = new Date().getTime()
+        passwords.push(record);
+    }
+
     auth.passwords = passwords;
     let encrypted_passwords = CryptoJS.AES.encrypt(JSON.stringify(passwords), auth.user.pure_password).toString();
     localStorage.setItem('passwords_' + auth.user.id, encrypted_passwords);
-
-
-    console.log(auth)
 
     closeAddPasswordModal()
     window.location.reload()
 }
 
+function deletePassword(id) {
+    let passwords = auth.passwords;
+    let index = passwords.findIndex(p => p.id === id)
+    passwords.splice(index, 1)
+    auth.passwords = passwords;
+    let encrypted_passwords = CryptoJS.AES.encrypt(JSON.stringify(passwords), auth.user.pure_password).toString();
+    localStorage.setItem('passwords_' + auth.user.id, encrypted_passwords);
+    window.location.reload()
+}
+
 function showPasswordsInDashboard() {
     let passwords = auth.passwords;
-    console.log(passwords)
     let passwordList = document.getElementById('passwordList')
     let passwordHtml = ''
     passwords.forEach(password => {
@@ -375,7 +409,6 @@ function showPasswordsInDashboard() {
                                             <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
                                         </svg>
                                     </button>
-
                                     <button class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-copy w-6 h-6"
@@ -387,7 +420,7 @@ function showPasswordsInDashboard() {
                                             <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"/>
                                         </svg>
                                     </button>
-                                    <button class="hover:text-gray-600">
+                                    <button onclick="openAddPasswordModal(${password.id})" class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-pencil w-6 h-6"
                                              viewBox="0 0 24 24" stroke-width="1.5"
@@ -398,7 +431,7 @@ function showPasswordsInDashboard() {
                                             <path d="M13.5 6.5l4 4"/>
                                         </svg>
                                     </button>
-                                    <button class="text-red-500 hover:text-red-600">
+                                    <button onclick="deletePassword(${password.id})" class="text-red-500 hover:text-red-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-trash h-6 w-6"
                                              viewBox="0 0 24 24" stroke-width="1.5"

@@ -38,87 +38,6 @@
                     </div>
 
                     <div id="passwordList" class="w-full max-w-4xl space-y-2 divide-y pt-1">
-                        <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
-                            <div>
-                                <div>
-                                    <span class="font-medium">Facebook.com</span>
-                                </div>
-                                <div>
-                                    <span class="text-sm text-gray-700">shahla.bahmanyar@gmail.com</span>
-                                </div>
-                            </div>
-                            <div>
-                                <span id="passwordHolder">********</span>
-                            </div>
-                            <div class="text-gray-500">
-
-                                <div class="text-gray-500">
-                                    <button onclick="togglePassword(true)" id="eye_closed" class="hover:text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="icon icon-tabler icon-tabler-eye-closed w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4"/>
-                                            <path d="M3 15l2.5 -3.8"/>
-                                            <path d="M21 14.976l-2.492 -3.776"/>
-                                            <path d="M9 17l.5 -4"/>
-                                            <path d="M15 17l-.5 -4"/>
-                                        </svg>
-                                    </button>
-
-                                    <button onclick="togglePassword(false)" id="eye_open" class="hidden hover:text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
-                                             stroke="currentColor" fill="none" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
-                                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
-                                        </svg>
-                                    </button>
-
-                                    <button class="hover:text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="icon icon-tabler icon-tabler-copy w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
-                                             stroke="currentColor" fill="none" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M7 7m0 2.667a2.667 2.667 0 0 1 2.667 -2.667h8.666a2.667 2.667 0 0 1 2.667 2.667v8.666a2.667 2.667 0 0 1 -2.667 2.667h-8.666a2.667 2.667 0 0 1 -2.667 -2.667z"/>
-                                            <path d="M4.012 16.737a2.005 2.005 0 0 1 -1.012 -1.737v-10c0 -1.1 .9 -2 2 -2h10c.75 0 1.158 .385 1.5 1"/>
-                                        </svg>
-                                    </button>
-                                    <button class="hover:text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="icon icon-tabler icon-tabler-pencil w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
-                                             stroke="currentColor" fill="none" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/>
-                                            <path d="M13.5 6.5l4 4"/>
-                                        </svg>
-                                    </button>
-                                    <button class="text-red-500 hover:text-red-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="icon icon-tabler icon-tabler-trash h-6 w-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
-                                             stroke="currentColor" fill="none" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M4 7l16 0"/>
-                                            <path d="M10 11l0 6"/>
-                                            <path d="M14 11l0 6"/>
-                                            <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l1 -12"/>
-                                            <path d="M9 7v-3a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3"/>
-                                        </svg>
-                                    </button>
-
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -153,6 +72,7 @@
                 <span id="w_password_error" class="text-sm text-red-500 hidden"></span>
 
                 <div class="pt-3">
+                    <input type="hidden" name="id" id="id" value="">
                     <button class="bg-gray-800 text-white rounded-lg p-2 w-full">Add</button>
                 </div>
             </form>
