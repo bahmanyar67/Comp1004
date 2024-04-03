@@ -364,12 +364,33 @@ function deletePassword(id) {
     window.location.reload()
 }
 
+function searchPasswords(query) {
+    let passwords = auth.passwords;
+    let filteredPasswords = passwords.filter(p => p.website.toLowerCase().includes(query.toLowerCase()))
+    UpdatePasswordsList(filteredPasswords)
+}
+
 function showPasswordsInDashboard() {
     let passwords = auth.passwords;
+    UpdatePasswordsList(passwords)
+}
+
+function UpdatePasswordsList(passwords) {
     let passwordList = document.getElementById('passwordList')
     let passwordHtml = ''
-    passwords.forEach(password => {
-        passwordHtml += `
+    if (passwords.length === 0) {
+         passwordHtml = `
+          <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
+                             <div>
+                                  <div>
+                                        <span class="font-medium">No Passwords Found</span>
+                                  </div>
+                             </div>
+                            </div>
+          `
+    } else {
+        passwords.forEach(password => {
+            passwordHtml += `
         <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
                             <div>
                                 <div>
@@ -409,7 +430,7 @@ function showPasswordsInDashboard() {
                                             <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
                                         </svg>
                                     </button>
-                                    <button class="hover:text-gray-600">
+                                    <button onclick="copyPassword(${password.id})" class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-copy w-6 h-6"
                                              viewBox="0 0 24 24" stroke-width="1.5"
@@ -451,10 +472,26 @@ function showPasswordsInDashboard() {
                             </div>
                         </div>
         `
-    })
+        })
+    }
+
     passwordList.innerHTML = passwordHtml
 }
 
+
+function listenForSearch() {
+    let searchInput = document.getElementById('searchInput')
+    searchInput.addEventListener('input', function () {
+        searchPasswords(this.value)
+    })
+}
+
+function copyPassword(id) {
+    let password = auth.passwords.find(p => p.id === id).password
+    navigator.clipboard.writeText(password).then(function () {
+        console.log('Async: Copying to clipboard was successful!');
+    });
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     // dashboard
@@ -465,6 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 let a = document.getElementById('dashboard_user_welcome')
                 a.innerHTML = 'Hi, ' + auth.user.fullname
                 showPasswordsInDashboard()
+                listenForSearch()
             }, 300
         )
     }
