@@ -6,6 +6,8 @@ This is a password management project. You can store and retrieve your passwords
 - Tailwind (CSS Framework)
 - Google Fonts
 - [TablerIcons](https://tabler.io/icons)
+- Crypto-Js
+
 
 ## Installation
 
