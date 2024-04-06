@@ -1,60 +1,64 @@
 <main class="w-full h-full flex items-center flex-1">
     <div class="mx-auto w-full max-w-6xl py-6 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-center">
+        <div class="flex items-center justify-center p-1">
             <div class="flex h-full w-full gap-2 bg-white rounded-md shadow-sm">
-                <div class="w-full bg-cover bg-[url('../src/assets/images/login-bg.jpg')] rounded-l-md">
+                <div class="w-full hidden md:block bg-cover bg-[url('../src/assets/images/login-bg.jpg')] rounded-l-md">
                 </div>
                 <div class="w-full p-6">
                     <h2 class="text-3xl text-center font-medium pb-3">Register</h2>
-                    <span id="userExists_error" class="text-sm text-red-500 text-center font-normal "></span>
-                    <div class="mt-8">
-                        <div class="mb-6">
-                            <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
-                            <input required="" type="text" name="fullname" id="fullname"
-                                   placeholder="Name"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                    <span id="userExists_error" class="text-sm text-red-500 text-center font-normal"></span>
+                    <form onsubmit="event.preventDefault(); storeNewUser();">
+                        <div class="mt-8">
+                            <div class="mb-6">
+                                <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900">Full Name</label>
+                                <input type="text" name="fullname" id="fullname"
+                                       placeholder="Name"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                   value="">
-                            <span id="fullName_error" class="text-sm text-red-500"></span>
-                        </div>
-                        <div class="mb-6">
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email
-                                Address</label>
-                            <input required="" type="email" name="email" id="email"
-                                   placeholder="email@domain.com"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                       value="">
+                                <span id="fullName_error" class="text-sm text-red-500"></span>
+                            </div>
+                            <div class="mb-6">
+                                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Email
+                                    Address</label>
+                                <input type="email" name="email" id="email"
+                                       placeholder="email@domain.com"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                   value="">
-                            <span id="email_error" class="text-sm text-red-500"></span>
-                        </div>
-                        <div class="mb-6">
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                            <input required="" type="password" name="password" id="password"
-                                   placeholder="*******************"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                       value="">
+                                <span id="email_error" class="text-sm text-red-500"></span>
+                            </div>
+                            <div class="mb-6">
+                                <label for="password"
+                                       class="block mb-2 text-sm font-medium text-gray-900">Password</label>
+                                <input type="password" name="password" id="password"
+                                       placeholder="*******************"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                   value="">
-                            <span id="password_error" class="text-sm text-red-500"></span>
-                        </div>
-                        <div class="mb-6">
-                            <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">
-                                Password Confirmation</label>
-                            <input required="" type="password" name="password_confirmation" id="password_confirmation"
-                                   placeholder="*******************"
-                                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                       value="">
+                                <span id="password_error" class="text-sm text-red-500"></span>
+                            </div>
+                            <div class="mb-6">
+                                <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">
+                                    Password Confirmation</label>
+                                <input type="password" name="password_confirmation"
+                                       id="password_confirmation"
+                                       placeholder="*******************"
+                                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                   value="">
-                            <span id="passwordConfirmation_error" class="text-sm text-red-500" ></span>
-                        </div>
-                        <button onclick="storeNewUser()"
-                                class="w-full text-white font-medium rounded-lg text-base px-5 py-2 text-center mb-6
+                                       value="">
+                                <span id="passwordConfirmation_error" class="text-sm text-red-500"></span>
+                            </div>
+                            <button type="submit"
+                                    class="w-full text-white font-medium rounded-lg text-base px-5 py-2 text-center mb-6
                                 bg-gray-800 hover:bg-gray-950">
-                            <span class="flex justify-center items-center">Create New Account</span>
-                        </button>
-                        <div class="text-sm font-medium text-gray-500">Already Registered?
-                            <a class="ml-1 text-blue-700 hover:underline" href="#login">Log in to account.</a>
+                                <span class="flex justify-center items-center">Create New Account</span>
+                            </button>
+                            <div class="text-sm font-medium text-gray-500">Already Registered?
+                                <a class="ml-1 text-blue-700 hover:underline" href="#login">Log in to account.</a>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

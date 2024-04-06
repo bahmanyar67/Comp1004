@@ -126,7 +126,7 @@ function isUserExists(email) {
 function login() {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
-    let password_encrypted = CryptoJS.SHA256(password).toString()
+    let password_encrypted = CryptoJS.SHA256(encodeURIComponent(password)).toString()
     if (!email || !password) {
         password_error.innerHTML = 'Email and password are required.'
 
@@ -277,6 +277,8 @@ function togglePassword(id, status) {
 // open add password modal
 function openAddPasswordModal(id = null) {
 
+    let passwordModalTitle = document.getElementById('passwordModalTitle')
+
     if (id) {
         let password = auth.passwords.find(p => p.id === id)
         let form = document.querySelector('#addPasswordForm');
@@ -284,6 +286,7 @@ function openAddPasswordModal(id = null) {
         form.elements['website'].value = password.website
         form.elements['website-username'].value = password.username
         form.elements['website-password'].value = password.password
+        passwordModalTitle.innerHTML = 'Edit Password'
     }
 
     let modal = document.getElementById('addPasswordModal')
@@ -379,7 +382,7 @@ function UpdatePasswordsList(passwords) {
     let passwordList = document.getElementById('passwordList')
     let passwordHtml = ''
     if (passwords.length === 0) {
-         passwordHtml = `
+        passwordHtml = `
           <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
                              <div>
                                   <div>
