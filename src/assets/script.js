@@ -276,22 +276,32 @@ function togglePassword(id, status) {
 
 // open add password modal
 function openAddPasswordModal(id = null) {
-
     let passwordModalTitle = document.getElementById('passwordModalTitle')
-
+    let form = document.querySelector('#addPasswordForm');
     if (id) {
         let password = auth.passwords.find(p => p.id === id)
-        let form = document.querySelector('#addPasswordForm');
         form.elements['id'].value = password.id
         form.elements['website'].value = password.website
         form.elements['website-username'].value = password.username
         form.elements['website-password'].value = password.password
         passwordModalTitle.innerHTML = 'Edit Password'
+    } else {
+        passwordModalTitle.innerHTML = 'Add New Password'
+        form.reset()
     }
 
     let modal = document.getElementById('addPasswordModal')
     modal.classList.add('flex')
     modal.classList.remove('hidden')
+
+
+
+    let password_input = document.getElementById('website_password')
+    // listen for password input changes
+    password_input.addEventListener('input', function () {
+        measurePasswordStrength(this.value)
+    })
+
 }
 
 // close add password modal
@@ -302,6 +312,21 @@ function closeAddPasswordModal() {
     // clear form
     let form = document.querySelector('#addPasswordForm');
     form.reset()
+
+    let website_error = document.getElementById('w_website_error')
+    let username_error = document.getElementById('w_username_error')
+    let password_error = document.getElementById('w_password_error')
+
+
+    let password_input = document.getElementById('website_password')
+    password_input.removeEventListener('input', function () {
+        measurePasswordStrength(this.value)
+    })
+
+    website_error.classList.add('hidden')
+    username_error.classList.add('hidden')
+    password_error.classList.add('hidden')
+
 }
 
 // add password
@@ -316,20 +341,41 @@ function addPassword() {
     // read addPasswordForm values
     let record = {
         id: parseInt(formData.get('id')),
-        website: formData.get('website'),
+        website: formData.get('website_name'),
         username: formData.get('website-username'),
         password: formData.get('website-password')
     }
 
     // errors
+    let website_error = document.getElementById('w_website_error')
+    let username_error = document.getElementById('w_username_error')
     let password_error = document.getElementById('w_password_error')
+
+
+    website_error.innerHTML = ''
+    if (!record.website) {
+        website_error.innerHTML = 'Website is empty'
+        website_error.classList.remove('hidden')
+        return;
+    }
+
+    username_error.innerHTML = ''
+    if (!record.username) {
+        username_error.innerHTML = 'Username is empty'
+        username_error.classList.remove('hidden')
+        return;
+    }
 
     password_error.innerHTML = ''
     if (!record.password) {
         password_error.innerHTML = 'Password is Empty!'
+        password_error.classList.remove('hidden')
+        return;
     } else {
         if (!checkPassword(record.password)) {
             password_error.innerHTML = 'password is not strong! (use upper,lower case character and number)'
+            password_error.classList.remove('hidden')
+            return;
         }
     }
 
@@ -357,9 +403,26 @@ function addPassword() {
     window.location.reload()
 }
 
-function deletePassword(id) {
+const passwordToDeleteId = {
+    id: null
+};
+function openDeletePasswordModal(id) {
+    passwordToDeleteId.id = id
+    let modal = document.getElementById('deletePasswordModal')
+    modal.classList.add('flex')
+    modal.classList.remove('hidden')
+}
+
+function closeDeletePasswordModal() {
+    let modal = document.getElementById('deletePasswordModal')
+    modal.classList.add('hidden')
+    modal.classList.remove('flex')
+    passwordToDeleteId.id = null
+}
+
+function deletePassword() {
     let passwords = auth.passwords;
-    let index = passwords.findIndex(p => p.id === id)
+    let index = passwords.findIndex(p => p.id === passwordToDeleteId.id)
     passwords.splice(index, 1)
     auth.passwords = passwords;
     let encrypted_passwords = CryptoJS.AES.encrypt(JSON.stringify(passwords), auth.user.pure_password).toString();
@@ -455,7 +518,7 @@ function UpdatePasswordsList(passwords) {
                                             <path d="M13.5 6.5l4 4"/>
                                         </svg>
                                     </button>
-                                    <button onclick="deletePassword(${password.id})" class="text-red-500 hover:text-red-600">
+                                    <button onclick="openDeletePasswordModal(${password.id})" class="text-red-500 hover:text-red-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-trash h-6 w-6"
                                              viewBox="0 0 24 24" stroke-width="1.5"
@@ -495,6 +558,84 @@ function copyPassword(id) {
         console.log('Async: Copying to clipboard was successful!');
     });
 }
+
+
+function generatePassword(inputId) {
+    let passwordInput = document.getElementById(inputId)
+
+    // generate random password
+    let password = ''
+    let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+';
+    let charactersLength = characters.length;
+    for (let i = 0; i < 12; i++) {
+        password += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    passwordInput.value = password
+    passwordInput.type = 'text'
+    measurePasswordStrength(password)
+    passwordInput.focus()
+}
+
+function measurePasswordStrength(password) {
+    let width = 10
+    let strength = 'Weak'
+
+    let lowerCase = /[a-z]+/
+    let upperCase = /[A-Z]+/
+    let numbers = /[0-9]+/
+    let specialChars = /[^a-zA-Z0-9]+/
+
+    if ((password.match(lowerCase) || password.match(upperCase)) && password.length > 6) {
+        width += 20
+        strength = 'Weak'
+    }
+
+    // if password has either lower or upper case and numbers
+    if ((password.match(lowerCase) || password.match(upperCase)) && (password.match(numbers) || password.match(specialChars)) && password.length > 6) {
+        width += 20
+        strength = 'Medium'
+    }
+
+    // if password has lower, upper case, numbers and special characters
+    if ((password.match(lowerCase) || password.match(upperCase)) && (password.match(numbers) || password.match(specialChars)) && password.length > 8) {
+        width += 30
+        strength = 'Strong'
+    }
+
+    // if password contains all above and special characters
+    if (password.match(lowerCase) && password.match(upperCase) && password.match(numbers) && password.match(specialChars) && password.length > 8) {
+        width += 20
+        strength = 'Very Strong'
+    }
+
+
+    let passwordStrength = document.getElementById('password-strength')
+    let passwordStrengthText = document.getElementById('password-strength-text')
+    let passwordStrengthBar = document.getElementById('password-strength-bar')
+
+    passwordStrength.style.width = width + '%'
+    passwordStrengthText.innerHTML = strength
+
+
+    if (width < 50) {
+        passwordStrengthBar.classList.remove('bg-green-500')
+        passwordStrengthBar.classList.remove('bg-yellow-500')
+        passwordStrengthBar.classList.add('bg-red-500')
+    } else if (width < 70) {
+        passwordStrengthBar.classList.remove('bg-red-500')
+        passwordStrengthBar.classList.remove('bg-green-500')
+        passwordStrengthBar.classList.add('bg-yellow-500')
+    } else {
+        passwordStrengthBar.classList.remove('bg-red-500')
+        passwordStrengthBar.classList.remove('bg-yellow-500')
+        passwordStrengthBar.classList.add('bg-green-500')
+
+    }
+
+
+}
+
 
 document.addEventListener("DOMContentLoaded", function () {
     // dashboard
