@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
             setTimeout(
                 function () {
                     let a = document.getElementById('dashboard_user_welcome')
-                    a.innerHTML = 'Hi, ' + auth.user.fullname
+                    a.innerHTML = 'Welcome, ' + `<span class="font-medium">${auth.user.fullname}</span>`
                     showPasswordsInDashboard()
                 }, 400
             )
@@ -277,6 +277,7 @@ function togglePassword(id, status) {
 // open add password modal
 function openAddPasswordModal(id = null) {
     let passwordModalTitle = document.getElementById('passwordModalTitle')
+    let modalSubmitButton = document.getElementById('password-modal-submit-button')
     let form = document.querySelector('#addPasswordForm');
     if (id) {
         let password = auth.passwords.find(p => p.id === id)
@@ -285,6 +286,8 @@ function openAddPasswordModal(id = null) {
         form.elements['website-username'].value = password.username
         form.elements['website-password'].value = password.password
         passwordModalTitle.innerHTML = 'Edit Password'
+        modalSubmitButton.innerHTML = 'Update Password'
+        measurePasswordStrength(password.password)
     } else {
         passwordModalTitle.innerHTML = 'Add New Password'
         form.reset()
@@ -293,7 +296,6 @@ function openAddPasswordModal(id = null) {
     let modal = document.getElementById('addPasswordModal')
     modal.classList.add('flex')
     modal.classList.remove('hidden')
-
 
 
     let password_input = document.getElementById('website_password')
@@ -372,11 +374,11 @@ function addPassword() {
         password_error.classList.remove('hidden')
         return;
     } else {
-        if (!checkPassword(record.password)) {
-            password_error.innerHTML = 'password is not strong! (use upper,lower case character and number)'
-            password_error.classList.remove('hidden')
-            return;
-        }
+        // if (!checkPassword(record.password)) {
+        //     password_error.innerHTML = 'password is not strong! (use upper,lower case character and number)'
+        //     password_error.classList.remove('hidden')
+        //     return;
+        // }
     }
 
     let passwords = []
@@ -406,6 +408,7 @@ function addPassword() {
 const passwordToDeleteId = {
     id: null
 };
+
 function openDeletePasswordModal(id) {
     passwordToDeleteId.id = id
     let modal = document.getElementById('deletePasswordModal')
@@ -439,6 +442,27 @@ function searchPasswords(query) {
 function showPasswordsInDashboard() {
     let passwords = auth.passwords;
     UpdatePasswordsList(passwords)
+    updateStatistics()
+}
+
+function updateStatistics() {
+    let passwords = auth.passwords
+    let totalPasswords = passwords.length
+    let weakPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Weak').length
+    let mediumPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Medium').length
+    let strongPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Strong').length
+    let veryStrongPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Very Strong').length
+
+
+    let totalPasswordsElement = document.getElementById('totalPasswords')
+    let weakPasswordsElement = document.getElementById('weakPasswords')
+    let mediumPasswordsElement = document.getElementById('mediumPasswords')
+    let strongPasswordsElement = document.getElementById('strongPasswords')
+
+    totalPasswordsElement.innerHTML = totalPasswords.toString()
+    weakPasswordsElement.innerHTML = weakPasswords.toString()
+    mediumPasswordsElement.innerHTML = mediumPasswords.toString()
+    strongPasswordsElement.innerHTML = (strongPasswords + veryStrongPasswords).toString()
 }
 
 function UpdatePasswordsList(passwords) {
@@ -447,17 +471,27 @@ function UpdatePasswordsList(passwords) {
     if (passwords.length === 0) {
         passwordHtml = `
           <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
-                             <div>
-                                  <div>
-                                        <span class="font-medium">No Passwords Found</span>
-                                  </div>
-                             </div>
-                            </div>
+             <div>
+                  <div>
+                        <span class="font-medium">No Passwords Found</span>
+                  </div>
+             </div>
+            </div>
           `
     } else {
         passwords.forEach(password => {
+            let strength = getPasswordsStrength(password.password)[0]
+            let border_color = ''
+            if (strength < 50) {
+                border_color = 'border-red-500'
+            } else if (strength < 70) {
+                border_color = 'border-yellow-500'
+            } else {
+                border_color = 'border-green-500'
+            }
+
             passwordHtml += `
-        <div class="w-full flex items-center justify-between hover:bg-gray-50 duration-200 px-2 py-1 ">
+        <div class="w-full flex items-center justify-between hover:bg-gray-50 rounded-r-md duration-200 border-l-2 my-1 p-2 ${border_color}">
                             <div>
                                 <div>
                                     <span class="font-medium">${password.website}</span>
@@ -470,12 +504,11 @@ function UpdatePasswordsList(passwords) {
                                 <span id="pw_placeholder_${password.id}">********</span>
                             </div>
                             <div class="text-gray-500">
-
                                 <div class="text-gray-500">
                                     <button onclick="togglePassword(${password.id},true)" id="eye_closed_${password.id}" class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-eye-closed w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                             viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" fill="none"
                                              stroke-linecap="round" stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                                             <path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4"/>
@@ -488,7 +521,7 @@ function UpdatePasswordsList(passwords) {
 
                                     <button onclick="togglePassword(${password.id},false)" id="eye_open_${password.id}" class="hidden hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                             viewBox="0 0 24 24" stroke-width="1.75"
                                              stroke="currentColor" fill="none" stroke-linecap="round"
                                              stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -499,7 +532,7 @@ function UpdatePasswordsList(passwords) {
                                     <button onclick="copyPassword(${password.id})" class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-copy w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                             viewBox="0 0 24 24" stroke-width="1.75"
                                              stroke="currentColor" fill="none" stroke-linecap="round"
                                              stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -510,7 +543,7 @@ function UpdatePasswordsList(passwords) {
                                     <button onclick="openAddPasswordModal(${password.id})" class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-pencil w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                             viewBox="0 0 24 24" stroke-width="1.75"
                                              stroke="currentColor" fill="none" stroke-linecap="round"
                                              stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -521,7 +554,7 @@ function UpdatePasswordsList(passwords) {
                                     <button onclick="openDeletePasswordModal(${password.id})" class="text-red-500 hover:text-red-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                              class="icon icon-tabler icon-tabler-trash h-6 w-6"
-                                             viewBox="0 0 24 24" stroke-width="1.5"
+                                             viewBox="0 0 24 24" stroke-width="1.75"
                                              stroke="currentColor" fill="none" stroke-linecap="round"
                                              stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
@@ -577,7 +610,7 @@ function generatePassword(inputId) {
     passwordInput.focus()
 }
 
-function measurePasswordStrength(password) {
+function getPasswordsStrength(password) {
     let width = 10
     let strength = 'Weak'
 
@@ -609,6 +642,13 @@ function measurePasswordStrength(password) {
         strength = 'Very Strong'
     }
 
+    return [width, strength]
+
+}
+
+function measurePasswordStrength(password) {
+    let [width, strength] = getPasswordsStrength(password)
+
 
     let passwordStrength = document.getElementById('password-strength')
     let passwordStrengthText = document.getElementById('password-strength-text')
@@ -632,8 +672,6 @@ function measurePasswordStrength(password) {
         passwordStrengthBar.classList.add('bg-green-500')
 
     }
-
-
 }
 
 
@@ -644,7 +682,7 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(
             function () {
                 let a = document.getElementById('dashboard_user_welcome')
-                a.innerHTML = 'Hi, ' + auth.user.fullname
+                a.innerHTML = 'Welcome, ' + auth.user.fullname
                 showPasswordsInDashboard()
                 listenForSearch()
             }, 300
