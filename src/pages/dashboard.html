@@ -6,7 +6,7 @@
     </div>
     <div class="mx-auto w-full max-w-7xl py-6 sm:px-6 lg:px-8 h-full -mt-44">
         <div class="bg-white rounded-md">
-            <div class="grid grid-cols-4 gap-2 p-2">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 p-2">
                 <div class="flex flex-col items-center bg-slate-500 text-white rounded-md shadow-sm p-4">
                     <div class="inline-flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -49,9 +49,9 @@
                             <path d="M19 16v3"/>
                             <path d="M19 22v.01"/>
                         </svg>
-                        <span class="text-2xl pl-1">Medium Passwords</span>
+                        <span class="text-2xl pl-1">Duplicated Passwords</span>
                     </div>
-                    <span id="mediumPasswords" class="text-4xl font-bold">0</span>
+                    <span id="repeatedPasswords" class="text-4xl font-bold">0</span>
                 </div>
                 <div class="flex flex-col items-center bg-green-500 text-white rounded-md shadow-sm p-4">
                     <div class="inline-flex items-center">
@@ -99,7 +99,18 @@
                         <span class="pl-1 whitespace-nowrap">New Password</span>
                     </button>
                 </div>
-                <div id="passwordList" class="w-full pt-1">
+                <div class="w-full pt-1">
+                    <table class="w-full border-separate border-spacing-2">
+                        <thead class="font-medium">
+                        <tr>
+                            <th class="font-semibold text-lg text-left">Website</th>
+                            <th class="text-center">Password</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody id="passwordListTable">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

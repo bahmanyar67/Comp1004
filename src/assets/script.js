@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     showPasswordsInDashboard()
                 }, 400
             )
-
         }
 
         try {
@@ -452,21 +451,25 @@ function updateStatistics() {
     let mediumPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Medium').length
     let strongPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Strong').length
     let veryStrongPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Very Strong').length
-
+    let repeatedPasswords = passwords.filter((p, index, self) =>
+            index !== self.findIndex((t) => (
+                t.password === p.password
+            ))
+    ).length
 
     let totalPasswordsElement = document.getElementById('totalPasswords')
     let weakPasswordsElement = document.getElementById('weakPasswords')
-    let mediumPasswordsElement = document.getElementById('mediumPasswords')
+    let repeatedPasswordsElement = document.getElementById('repeatedPasswords')
     let strongPasswordsElement = document.getElementById('strongPasswords')
 
     totalPasswordsElement.innerHTML = totalPasswords.toString()
-    weakPasswordsElement.innerHTML = weakPasswords.toString()
-    mediumPasswordsElement.innerHTML = mediumPasswords.toString()
+    weakPasswordsElement.innerHTML = (weakPasswords + mediumPasswords).toString()
+    repeatedPasswordsElement.innerHTML = repeatedPasswords.toString()
     strongPasswordsElement.innerHTML = (strongPasswords + veryStrongPasswords).toString()
 }
 
 function UpdatePasswordsList(passwords) {
-    let passwordList = document.getElementById('passwordList')
+    let passwordList = document.getElementById('passwordListTable')
     let passwordHtml = ''
     if (passwords.length === 0) {
         passwordHtml = `
@@ -480,30 +483,27 @@ function UpdatePasswordsList(passwords) {
           `
     } else {
         passwords.forEach(password => {
+            console.log(password)
             let strength = getPasswordsStrength(password.password)[0]
-            let border_color = ''
-            if (strength < 50) {
+            let border_color = 'border-white'
+            if (strength < 70) {
                 border_color = 'border-red-500'
-            } else if (strength < 70) {
-                border_color = 'border-yellow-500'
-            } else {
-                border_color = 'border-green-500'
             }
 
             passwordHtml += `
-        <div class="w-full flex items-center justify-between hover:bg-gray-50 rounded-r-md duration-200 border-l-2 my-1 p-2 ${border_color}">
-                            <div>
+        <tr class="hover:bg-gray-50 duration-200">
+                            <td class="border-l-2 px-2 ${border_color}">
                                 <div>
                                     <span class="font-medium">${password.website}</span>
                                 </div>
                                 <div>
                                     <span class="text-sm text-gray-700">${password.username}</span>
                                 </div>
-                            </div>
-                            <div>
+                            </td>
+                            <td class="text-center min-w-28">
                                 <span id="pw_placeholder_${password.id}">********</span>
-                            </div>
-                            <div class="text-gray-500">
+                            </td>
+                            <td class="text-gray-500 text-right">
                                 <div class="text-gray-500">
                                     <button onclick="togglePassword(${password.id},true)" id="eye_closed_${password.id}" class="hover:text-gray-600">
                                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -541,14 +541,14 @@ function UpdatePasswordsList(passwords) {
                                         </svg>
                                     </button>
                                     <button onclick="openAddPasswordModal(${password.id})" class="hover:text-gray-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                             class="icon icon-tabler icon-tabler-pencil w-6 h-6"
-                                             viewBox="0 0 24 24" stroke-width="1.75"
-                                             stroke="currentColor" fill="none" stroke-linecap="round"
-                                             stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"/>
-                                            <path d="M13.5 6.5l4 4"/>
+                                        <svg  xmlns="http://www.w3.org/2000/svg" 
+                                              class="icon icon-tabler icon-tabler-edit h-6 w-6"
+                                              viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="1.75"  
+                                              stroke-linecap="round"  stroke-linejoin="round">
+                                              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                              <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                                              <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                                              <path d="M16 5l3 3" />
                                         </svg>
                                     </button>
                                     <button onclick="openDeletePasswordModal(${password.id})" class="text-red-500 hover:text-red-600">
@@ -568,8 +568,8 @@ function UpdatePasswordsList(passwords) {
 
                                 </div>
 
-                            </div>
-                        </div>
+                            </td>
+                        </tr>
         `
         })
     }
