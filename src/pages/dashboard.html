@@ -19,7 +19,7 @@
                         </svg>
                         <span class="text-2xl pl-1">Total Passwords</span>
                     </div>
-                    <span id="totalPasswords" class="text-4xl font-bold">0</span>
+                    <span id="totalPasswords" class="text-3xl font-semibold">0</span>
                 </div>
                 <div class="flex flex-col items-center bg-red-500 text-white rounded-md shadow-sm p-4">
                     <div class="inline-flex items-center">
@@ -35,7 +35,7 @@
                         </svg>
                         <span class="text-2xl pl-1">Weak Passwords</span>
                     </div>
-                    <span id="weakPasswords" class="text-4xl font-bold">0</span>
+                    <span id="weakPasswords" class="text-3xl font-semibold">0</span>
                 </div>
                 <div class="flex flex-col items-center bg-amber-500 text-white rounded-md shadow-sm p-4">
                     <div class="inline-flex items-center">
@@ -51,7 +51,7 @@
                         </svg>
                         <span class="text-2xl pl-1">Duplicated Passwords</span>
                     </div>
-                    <span id="repeatedPasswords" class="text-4xl font-bold">0</span>
+                    <span id="repeatedPasswords" class="text-3xl font-semibold">0</span>
                 </div>
                 <div class="flex flex-col items-center bg-green-500 text-white rounded-md shadow-sm p-4">
                     <div class="inline-flex items-center">
@@ -66,7 +66,7 @@
                         </svg>
                         <span class="text-2xl pl-1">Strong Passwords</span>
                     </div>
-                    <span id="strongPasswords" class="text-4xl font-bold">0</span>
+                    <span id="strongPasswords" class="text-3xl font-semibold">0</span>
                 </div>
             </div>
             <div class="flex flex-col items-center h-full w-full shadow-sm min-h-64 p-4">
@@ -74,6 +74,7 @@
                     <label class="w-full flex items-center border border-gray-300 px-2 rounded-lg"
                            for="searchInput">
                         <input class="w-full border-0 focus:border-0 focus:ring-0" type="search" id="searchInput"
+                               placeholder="Search for a website..."
                                name="search">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                              class="icon icon-tabler icon-tabler-search w-5 h-5 text-gray-400"
@@ -100,7 +101,7 @@
                     </button>
                 </div>
                 <div class="w-full pt-1">
-                    <table class="w-full border-separate border-spacing-2">
+                    <table class="w-full border-separate border-spacing-2 border-spacing-y-5">
                         <thead class="font-medium">
                         <tr>
                             <th class="font-semibold text-lg text-left">Website</th>
@@ -161,16 +162,17 @@
 
                 </div>
                 <div class="flex justify-between items-center gap-2">
-                    <div id="password-strength" style="width: 10%">
-                        <div id="password-strength-bar" class="h-2 bg-red-500 rounded-lg"></div>
+                    <div id="website_password-strength" style="width: 10%">
+                        <div id="website_password-strength-bar" class="h-2 bg-red-500 rounded-lg"></div>
                     </div>
-                    <span id="password-strength-text" class="text-sm whitespace-nowrap">Weak</span>
+                    <span id="website_password-strength-text" class="text-sm whitespace-nowrap">Weak</span>
                 </div>
                 <span id="w_password_error" class="text-sm text-red-500 hidden"></span>
 
                 <div class="pt-3">
                     <input type="hidden" name="id" id="id" value="">
-                    <button id="password-modal-submit-button" class="bg-gray-800 text-white rounded-lg p-2 w-full">Add</button>
+                    <button id="password-modal-submit-button" class="bg-gray-800 text-white rounded-lg p-2 w-full">Add
+                    </button>
                 </div>
             </form>
         </div>

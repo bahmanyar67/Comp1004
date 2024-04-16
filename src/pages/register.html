@@ -37,6 +37,12 @@
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                        value="">
                                 <span id="password_error" class="text-sm text-red-500"></span>
+                                <div class="flex justify-between items-center gap-2">
+                                    <div id="password-strength" style="width: 10%">
+                                        <div id="password-strength-bar" class="h-2 bg-red-500 rounded-lg"></div>
+                                    </div>
+                                    <span id="password-strength-text" class="text-sm whitespace-nowrap">Weak</span>
+                                </div>
                             </div>
                             <div class="mb-6">
                                 <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">
@@ -48,6 +54,12 @@
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                        value="">
                                 <span id="passwordConfirmation_error" class="text-sm text-red-500"></span>
+                                <div class="flex justify-between items-center gap-2">
+                                    <div id="password_confirmation-strength" style="width: 10%">
+                                        <div id="password_confirmation-strength-bar" class="h-2 bg-red-500 rounded-lg"></div>
+                                    </div>
+                                    <span id="password_confirmation-strength-text" class="text-sm whitespace-nowrap">Weak</span>
+                                </div>
                             </div>
                             <button type="submit"
                                     class="w-full text-white font-medium rounded-lg text-base px-5 py-2 text-center mb-6

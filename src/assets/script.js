@@ -292,15 +292,24 @@ function openAddPasswordModal(id = null) {
         form.reset()
     }
 
+    measurePasswordStrength('website_password')
+
+
     let modal = document.getElementById('addPasswordModal')
     modal.classList.add('flex')
     modal.classList.remove('hidden')
 
+    setTimeout(
+        function () {
+            let website_input = document.getElementById('website')
+            website_input.focus()
+        }, 200
+    )
 
     let password_input = document.getElementById('website_password')
     // listen for password input changes
     password_input.addEventListener('input', function () {
-        measurePasswordStrength(this.value)
+        measurePasswordStrength('website_password')
     })
 
 }
@@ -483,22 +492,48 @@ function UpdatePasswordsList(passwords) {
           `
     } else {
         passwords.forEach(password => {
-            console.log(password)
             let strength = getPasswordsStrength(password.password)[0]
             let border_color = 'border-white'
+            let bg_color = 'bg-green-500'
             if (strength < 70) {
-                border_color = 'border-red-500'
+                bg_color = 'bg-red-500'
+            }
+
+            let is_duplicated = (password) => {
+                console.log(password)
+                if (auth.passwords.filter(p => p.password === password).length > 1) {
+                    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-lock-exclamation w-5 h-5 text-amber-500">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M15 21h-8a2 2 0 0 1 -2 -2v-6a2 2 0 0 1 2 -2h10a2 2 0 0 1 1.734 1.002"/>
+                            <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"/>
+                            <path d="M8 11v-4a4 4 0 1 1 8 0v4"/>
+                            <path d="M19 16v3"/>
+                            <path d="M19 22v.01"/>
+                        </svg>`
+                } else {
+                    return ''
+                }
             }
 
             passwordHtml += `
         <tr class="hover:bg-gray-50 duration-200">
-                            <td class="border-l-2 px-2 ${border_color}">
-                                <div>
-                                    <span class="font-medium">${password.website}</span>
+                            <td class="px-2 ${border_color}">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div>
+                                            <span class="font-medium">${password.website}</span>
+                                        </div>
+                                        <div>
+                                            <span class="text-sm text-gray-700">${password.username}</span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                    ${is_duplicated(password.password)}
+                                    </div>
                                 </div>
-                                <div>
-                                    <span class="text-sm text-gray-700">${password.username}</span>
-                                </div>
+                                <div class="bg-amber-500 h-1 ${bg_color}" style="width: ${strength}%;">
                             </td>
                             <td class="text-center min-w-28">
                                 <span id="pw_placeholder_${password.id}">********</span>
@@ -606,7 +641,11 @@ function generatePassword(inputId) {
 
     passwordInput.value = password
     passwordInput.type = 'text'
-    measurePasswordStrength(password)
+    setTimeout(
+        function () {
+            measurePasswordStrength(inputId)
+        }, 100
+    )
     passwordInput.focus()
 }
 
@@ -646,13 +685,14 @@ function getPasswordsStrength(password) {
 
 }
 
-function measurePasswordStrength(password) {
-    let [width, strength] = getPasswordsStrength(password)
+function measurePasswordStrength(inputId) {
+    let password_input = document.getElementById(inputId)
+    let [width, strength] = getPasswordsStrength(password_input.value)
 
 
-    let passwordStrength = document.getElementById('password-strength')
-    let passwordStrengthText = document.getElementById('password-strength-text')
-    let passwordStrengthBar = document.getElementById('password-strength-bar')
+    let passwordStrength = document.getElementById(inputId + '-strength')
+    let passwordStrengthText = document.getElementById(inputId + '-strength-text')
+    let passwordStrengthBar = document.getElementById(inputId + '-strength-bar')
 
     passwordStrength.style.width = width + '%'
     passwordStrengthText.innerHTML = strength
@@ -685,6 +725,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 a.innerHTML = 'Welcome, ' + auth.user.fullname
                 showPasswordsInDashboard()
                 listenForSearch()
+            }, 300
+        )
+    }
+
+    if (page === 'register') {
+        setTimeout(
+            function () {
+                let password_input = document.getElementById('password')
+                let password_input_confirmation = document.getElementById('password_confirmation')
+                password_input.addEventListener('input', function () {
+                    measurePasswordStrength('password')
+                })
+                password_input_confirmation.addEventListener('input', function () {
+                    measurePasswordStrength('password_confirmation')
+                })
             }, 300
         )
     }
