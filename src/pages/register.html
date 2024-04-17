@@ -31,11 +31,25 @@
                             <div class="mb-6">
                                 <label for="password"
                                        class="block mb-2 text-sm font-medium text-gray-900">Password</label>
-                                <input type="password" name="password" id="password"
-                                       placeholder="*******************"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
-                                   focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                       value="">
+                                <div class="relative">
+                                    <input type="password" name="password" id="password"
+                                           placeholder="*******************"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                       focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                           value="">
+                                    <span onclick="toggleRegisterPassword('password')"
+                                          id="password_toggle_button"
+                                          class="absolute cursor-pointer hover:text-gray-600 top-1/2 right-1 transform -translate-y-1/2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye w-6 h-6"
+                                             viewBox="0 0 24 24" stroke-width="1.75"
+                                             stroke="currentColor" fill="none" stroke-linecap="round"
+                                             stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
+                                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
+                                        </svg>
+                                    </span>
+                                </div>
                                 <span id="password_error" class="text-sm text-red-500"></span>
                                 <div class="flex justify-between items-center gap-2">
                                     <div id="password-strength" style="width: 10%">
@@ -47,12 +61,26 @@
                             <div class="mb-6">
                                 <label for="password_confirmation" class="block mb-2 text-sm font-medium text-gray-900">
                                     Password Confirmation</label>
-                                <input type="password" name="password_confirmation"
-                                       id="password_confirmation"
-                                       placeholder="*******************"
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
+                                <div class="relative">
+                                    <input type="password" name="password_confirmation"
+                                           id="password_confirmation"
+                                           placeholder="*******************"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
                                    focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                       value="">
+                                           value="">
+                                    <span onclick="toggleRegisterPassword('password_confirmation')"
+                                            id="password_confirmation_toggle_button"
+                                            class="absolute cursor-pointer hover:text-gray-600 top-1/2 right-1 transform -translate-y-1/2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye w-6 h-6"
+                                             viewBox="0 0 24 24" stroke-width="1.75"
+                                             stroke="currentColor" fill="none" stroke-linecap="round"
+                                             stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                            <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/>
+                                            <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/>
+                                        </svg>
+                                    </span>
+                                </div>
                                 <span id="passwordConfirmation_error" class="text-sm text-red-500"></span>
                                 <div class="flex justify-between items-center gap-2">
                                     <div id="password_confirmation-strength" style="width: 10%">

@@ -88,20 +88,46 @@
                 </div>
                 <div class="w-full  flex justify-between gap-2 items-center py-5">
                     <span class="font-medium text-2xl">Password list</span>
-                    <button class="flex items-center border shadow p-2 px-3 rounded-lg font-normal text-white
+                    <div class="flex gap-1">
+                        <button class="flex items-center border shadow p-2 px-3 rounded-lg font-normal text-white
                     bg-gray-800 hover:bg-gray-950 duration-200" onclick="openAddPasswordModal()">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
-                             viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                             stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12 5l0 14"/>
-                            <path d="M5 12l14 0"/>
-                        </svg>
-                        <span class="pl-1 whitespace-nowrap">New Password</span>
-                    </button>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
+                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M12 5l0 14"/>
+                                <path d="M5 12l14 0"/>
+                            </svg>
+                            <span class="pl-1 whitespace-nowrap">New Password</span>
+                        </button>
+                        <button class="flex items-center border shadow p-2 px-3 rounded-lg font-normal text-white
+                    bg-gray-800 hover:bg-gray-950 duration-200" onclick="exportPasswords()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
+                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"/>
+                                <path d="M12 13l0 9"/>
+                                <path d="M9 19l3 3l3 -3"/>
+                            </svg>
+                            <span class="pl-1 whitespace-nowrap">Export</span>
+                        </button>
+                        <button class="flex items-center border shadow p-2 px-3 rounded-lg font-normal text-white
+                    bg-gray-800 hover:bg-gray-950 duration-200" onclick="importPasswordsHandler()">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon h-5 w-5 icon-tabler icon-tabler-plus"
+                                 viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M7 18a4.6 4.4 0 0 1 0 -9a5 4.5 0 0 1 11 2h1a3.5 3.5 0 0 1 0 7h-1"/>
+                                <path d="M9 15l3 -3l3 3"/>
+                                <path d="M12 12l0 9"/>
+                            </svg>
+                            <span class="pl-1 whitespace-nowrap">Import</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="w-full pt-1">
-                    <table class="w-full border-separate border-spacing-2 border-spacing-y-5">
+                    <table class="w-full">
                         <thead class="font-medium">
                         <tr>
                             <th class="font-semibold text-lg text-left">Website</th>

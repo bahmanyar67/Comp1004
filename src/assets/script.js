@@ -56,6 +56,14 @@ document.addEventListener("DOMContentLoaded", function () {
             )
         }
 
+        if (pageName === 'register') {
+            setTimeout(
+                function () {
+                    listenRegisterPasswordChange()
+                }, 300
+            )
+        }
+
         try {
             const response = await fetch('pages/' + pageName + '.html');
             if (!response.ok) {
@@ -273,6 +281,24 @@ function togglePassword(id, status) {
 
 }
 
+
+function toggleRegisterPassword(inputId) {
+    let passwordInput = document.getElementById(inputId)
+    let toggleButton = document.getElementById(inputId + '_toggle_button')
+
+    let eye_open_icon = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye w-6 h-6" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"> <path stroke="none" d="M0 0h24v24H0z" fill="none"/> <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"/> <path d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6"/></svg>';
+    let eye_close_icon = '<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-eye-closed w-6 h-6" viewBox="0 0 24 24" stroke-width="1.75" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M21 9c-2.4 2.667 -5.4 4 -9 4c-3.6 0 -6.6 -1.333 -9 -4"/><path d="M3 15l2.5 -3.8"/><path d="M21 14.976l-2.492 -3.776"/><path d="M9 17l.5 -4"/><path d="M15 17l-.5 -4"/></svg>';
+
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text'
+        toggleButton.innerHTML = eye_close_icon
+    } else {
+        passwordInput.type = 'password'
+        toggleButton.innerHTML = eye_open_icon
+    }
+}
+
 // open add password modal
 function openAddPasswordModal(id = null) {
     let passwordModalTitle = document.getElementById('passwordModalTitle')
@@ -286,7 +312,7 @@ function openAddPasswordModal(id = null) {
         form.elements['website-password'].value = password.password
         passwordModalTitle.innerHTML = 'Edit Password'
         modalSubmitButton.innerHTML = 'Update Password'
-        measurePasswordStrength(password.password)
+        //measurePasswordStrength(password.password)
     } else {
         passwordModalTitle.innerHTML = 'Add New Password'
         form.reset()
@@ -500,7 +526,6 @@ function UpdatePasswordsList(passwords) {
             }
 
             let is_duplicated = (password) => {
-                console.log(password)
                 if (auth.passwords.filter(p => p.password === password).length > 1) {
                     return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -518,8 +543,8 @@ function UpdatePasswordsList(passwords) {
             }
 
             passwordHtml += `
-        <tr class="hover:bg-gray-50 duration-200">
-                            <td class="px-2 ${border_color}">
+        <tr class="hover:bg-purple-100 duration-200 even:bg-gray-200 border-b border-gray-200">
+                            <td class="p-2 max-w-md">
                                 <div class="flex justify-between items-center">
                                     <div>
                                         <div>
@@ -529,13 +554,13 @@ function UpdatePasswordsList(passwords) {
                                             <span class="text-sm text-gray-700">${password.username}</span>
                                         </div>
                                     </div>
-                                    <div>
+                                    <div class="">
                                     ${is_duplicated(password.password)}
                                     </div>
                                 </div>
-                                <div class="bg-amber-500 h-1 ${bg_color}" style="width: ${strength}%;">
+                                <div class="rounded-md xl:pr-10 h-1 ${bg_color}" style="width: ${strength}%;">
                             </td>
-                            <td class="text-center min-w-28">
+                            <td class="text-center min-w-40">
                                 <span id="pw_placeholder_${password.id}">********</span>
                             </td>
                             <td class="text-gray-500 text-right">
@@ -611,7 +636,6 @@ function UpdatePasswordsList(passwords) {
 
     passwordList.innerHTML = passwordHtml
 }
-
 
 function listenForSearch() {
     let searchInput = document.getElementById('searchInput')
@@ -714,6 +738,72 @@ function measurePasswordStrength(inputId) {
     }
 }
 
+function listenRegisterPasswordChange() {
+
+    let password_input = document.getElementById('password')
+    let password_input_confirmation = document.getElementById('password_confirmation')
+    password_input.addEventListener('input', function () {
+        measurePasswordStrength('password')
+    })
+
+    password_input_confirmation.addEventListener('input', function () {
+        measurePasswordStrength('password_confirmation')
+    })
+
+}
+
+function exportPasswords() {
+    let passwords = auth.passwords
+    // encrypt passwords before exporting
+    let encrypted_passwords = CryptoJS.AES.encrypt(JSON.stringify(passwords), auth.user.pure_password).toString();
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(encrypted_passwords));
+
+    let date = new Date()
+    let filename = 'passwords-' + date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate() + '_' + date.getHours() + date.getMinutes() + date.getSeconds() + '.json'
+
+    element.setAttribute('download', filename);
+
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+function importPasswordsHandler() {
+    // create file input element and click it to open file dialog
+    let element = document.createElement('input');
+    element.setAttribute('type', 'file');
+    element.setAttribute('accept', '.json');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.addEventListener('change', function () {
+        importPasswords(this.files[0])
+    });
+
+    element.click();
+    document.body.removeChild(element);
+}
+
+
+function importPasswords(file) {
+    let reader = new FileReader();
+    reader.onload = function () {
+        let encrypted_passwords = reader.result.toString();
+
+        auth.passwords = JSON.parse(CryptoJS.AES.decrypt(encrypted_passwords, auth.user.pure_password).toString(CryptoJS.enc.Utf8));
+        localStorage.setItem('passwords_' + auth.user.id, encrypted_passwords);
+
+    }
+    reader.readAsText(file);
+
+    window.location.reload()
+
+}
 
 document.addEventListener("DOMContentLoaded", function () {
     // dashboard
@@ -732,14 +822,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (page === 'register') {
         setTimeout(
             function () {
-                let password_input = document.getElementById('password')
-                let password_input_confirmation = document.getElementById('password_confirmation')
-                password_input.addEventListener('input', function () {
-                    measurePasswordStrength('password')
-                })
-                password_input_confirmation.addEventListener('input', function () {
-                    measurePasswordStrength('password_confirmation')
-                })
+                listenRegisterPasswordChange()
             }, 300
         )
     }
