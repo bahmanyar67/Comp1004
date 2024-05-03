@@ -205,8 +205,9 @@ function storeNewUser() {
     if (!password) {
         password_error.innerHTML = 'Password is Empty!'
     } else {
-        if (!checkPassword(password)) {
-            password_error.innerHTML = 'password is not strong! (use upper,lower case character and number)'
+        let [width, strength] = getPasswordsStrength(password)
+        if (width <= 80) {
+            password_error.innerHTML = 'password is not very strong! (use upper,lower case character and number)'
             return;
         }
     }
@@ -249,12 +250,6 @@ function storeNewUser() {
         window.location.hash = '#login'
     }, 6000)
 
-}
-
-function checkPassword(str) {
-    //Comp1003 regular expression cheat sheet v2
-    var re = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
-    return re.test(str);
 }
 
 function logout() {
@@ -482,6 +477,7 @@ function showPasswordsInDashboard() {
 function updateStatistics() {
     let passwords = auth.passwords
     let totalPasswords = passwords.length
+    let veryWeakPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Very Weak').length
     let weakPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Weak').length
     let mediumPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Medium').length
     let strongPasswords = passwords.filter(p => getPasswordsStrength(p.password)[1] === 'Strong').length
@@ -498,7 +494,7 @@ function updateStatistics() {
     let strongPasswordsElement = document.getElementById('strongPasswords')
 
     totalPasswordsElement.innerHTML = totalPasswords.toString()
-    weakPasswordsElement.innerHTML = (weakPasswords + mediumPasswords).toString()
+    weakPasswordsElement.innerHTML = (veryWeakPasswords + weakPasswords + mediumPasswords).toString()
     repeatedPasswordsElement.innerHTML = repeatedPasswords.toString()
     strongPasswordsElement.innerHTML = (strongPasswords + veryStrongPasswords).toString()
 }
@@ -675,7 +671,7 @@ function generatePassword(inputId) {
 
 function getPasswordsStrength(password) {
     let width = 10
-    let strength = 'Weak'
+    let strength = 'Very Weak'
 
     let lowerCase = /[a-z]+/
     let upperCase = /[A-Z]+/
